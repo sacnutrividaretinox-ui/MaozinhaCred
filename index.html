@@ -145,32 +145,27 @@
   </section>
 
   <!-- Simulador (âncora) -->
-  <section id="simulador" class="section section--glass">
-    <div class="section__header">
-      <h2>Simule agora</h2>
-      <p>Leva menos de 2 minutos.</p>
-    </div>
-    <div class="simulador">
-      <form onsubmit="event.preventDefault(); window.location.href='sua-pagina-de-simulacao.html';">
+  <form id="formSimulacao" onsubmit="redirecionar(event)">
+  <label>CPF (somente números)</label>
+  <input type="text" id="cpf" placeholder="Digite seu CPF" required>
 
-        <label>CPF (somente números)</label>
-        <input type="text" inputmode="numeric" maxlength="11" placeholder="Digite seu CPF" required/>
+  <label>Valor desejado (R$)</label>
+  <input type="number" id="valor" placeholder="Ex: 1000" required>
 
-        <label>Valor desejado (R$)</label>
-        <input type="number" min="500" max="5000" placeholder="Entre 500 e 5000" required/>
+  <label>Parcelas</label>
+  <input type="number" id="parcelas" placeholder="Ex: 12" required>
 
-        <label>Parcelas</label>
-        <input type="number" min="3" max="24" placeholder="Ex: 12" required/>
+  <button type="submit">Calcular</button>
+</form>
 
-        <button class="btn btn--lg" type="submit">Calcular</button>
-      </form>
-      <div id="simResult" class="simulador__result">
-        <h4>Prévia de simulação</h4>
-        <p>Você verá aqui a estimativa total e o valor por parcela. Esta etapa não impacta seu CPF.</p>
-        <a class="btn" href="#faq">Tirar dúvidas</a>
-      </div>
-    </div>
-  </section>
+<script>
+  function redirecionar(event) {
+    event.preventDefault();
+
+    // redireciona para a página de simulação online do Railway
+    window.location.href = "https://maozinhacred-production.up.railway.app/simulacao/index.html";
+  }
+</script>
 
   <!-- FAQ -->
   <section id="faq" class="section">
