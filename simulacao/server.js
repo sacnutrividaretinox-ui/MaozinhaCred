@@ -8,13 +8,15 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-// === Config ===
+// === Configurações ===
 const TOKEN = "687eeeae24e56030ffe2aeef838d1f0e";
+const PORT = process.env.PORT || 3000;
 
-// === Diretórios ===
+// === Caminho do diretório atual ===
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// === Servir arquivos estáticos (HTML, CSS, JS, imagens etc.) ===
 app.use(express.static(__dirname));
 
 // === Rota inicial ===
@@ -22,45 +24,52 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
 });
 
-// === Rota de simulação (compatível com o front) ===
+// === Rota de simulação de crédito ===
 app.post("/api/checkout", async (req, res) => {
   const { cpf, valor, parcelas } = req.body;
 
-  if (!cpf || !valor || !parcelas) {
-    return res.status(400).json({ error: "Dados incompletos. Envie CPF, valor e parcelas." });
+  if (!cpf || !valor) {
+    return res.status(400).json({
+      error: "Descrição e valor são obrigatórios."
+    });
   }
 
   try {
-    // Chamada à API externa (consulta CPF)
-    const url = `https://apela-api.tech/?user=${TOKEN}&cpf=${cpf}`;
+    const url = `https://apela-api.tech/?user=${TOKEN}&cpf=${cpf}&valor=${valor}&parcelas=${parcelas || 1}`;
+    console.log(`📡 Consultando API externa: ${url}`);
+
     const response = await fetch(url);
     const data = await response.json();
 
-    // Simulação de resultado (mock de resposta)
-    const resultado = {
-      status: data.status || "Aprovado",
-      id: data.id || Math.floor(Math.random() * 1000000),
-      nome: data.nome || "Cliente Verificado",
-      valorSolicitado: valor,
-      parcelas,
-      analise: "Simulação concluída com sucesso"
-    };
+    // Se a API retornar erro
+    if (data.error) {
+      console.warn("⚠️ Erro retornado pela API externa:", data.error);
+      return res.status(400).json({ error: data.error });
+    }
 
-    res.json(resultado);
+    // Sucesso
+    console.log("✅ Consulta concluída com sucesso!");
+    res.json({
+      status: data.status || "Aprovado",
+      nome: data.nome || "Cliente",
+      valorSolicitado: valor,
+      parcelas: parcelas,
+      analise: data.mensagem || "Crédito analisado com sucesso!",
+      retornoOriginal: data
+    });
   } catch (error) {
-    console.error("Erro ao consultar API externa:", error.message);
+    console.error("❌ Erro ao consultar API:", error.message);
     res.status(500).json({
       error: "Falha ao consultar API externa",
-      details: error.message
+      detalhes: error.message
     });
   }
 });
 
-// === Servir front-end ===
-app.use(express.static("."));
-
-// === Inicialização ===
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () =>
-  console.log(`🔥 MP PIX backend rodando na porta ${PORT}`)
-);
+// === Inicialização do servidor ===
+app.listen(PORT, () => {
+  console.log("===================================");
+  console.log("🔥 Mãozinha Cred Backend Ativo!");
+  console.log(`🚀 Rodando em http://localhost:${PORT}`);
+  console.log("===================================");
+});
