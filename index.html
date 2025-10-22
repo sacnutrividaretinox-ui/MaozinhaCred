@@ -147,8 +147,8 @@
   <!-- Simulador (âncora) -->
   <section id="simulador" class="simulador">
   <div class="simulador-card">
-    <h2>Simule agora</h2>
-    <p>Leva menos de 2 minutos.</p>
+    <h2>💰 Simule seu crédito</h2>
+    <p>Leva menos de 2 minutos para saber se você é aprovado.</p>
 
     <form id="formSimulacao" onsubmit="redirecionar(event)">
       <div class="campo">
@@ -158,7 +158,7 @@
 
       <div class="campo">
         <label for="valor">Valor desejado (R$)</label>
-        <input type="number" id="valor" placeholder="Entre 500 e 5000" required>
+        <input type="number" id="valor" placeholder="Ex: 1000" required>
       </div>
 
       <div class="campo">
@@ -166,8 +166,12 @@
         <input type="number" id="parcelas" placeholder="Ex: 12" required>
       </div>
 
-      <button type="submit">Calcular</button>
+      <button type="submit" class="btn-calcular">Calcular</button>
     </form>
+
+    <div class="simulador-info">
+      <small>✅ Análise rápida • Sem burocracia • Dinheiro na conta no mesmo dia</small>
+    </div>
   </div>
 </section>
 
