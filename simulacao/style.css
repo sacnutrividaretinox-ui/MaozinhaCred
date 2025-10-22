@@ -1,0 +1,147 @@
+body {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(180deg, #0a1a3a, #08214d);
+  overflow: hidden;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Carrossel de bancos */
+.bank-carousel {
+  position: absolute;
+  top: 15%;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0.25;
+  z-index: 1;
+}
+
+.bank-carousel .logos {
+  display: flex;
+  align-items: center;
+  gap: 100px;
+  animation: scrollBanks 25s linear infinite;
+}
+
+.bank-carousel img {
+  height: 60px;
+  filter: drop-shadow(0 0 10px rgba(59, 130, 246, 0.5));
+  transition: transform 0.4s ease, filter 0.4s ease;
+  opacity: 0.9;
+}
+
+.bank-carousel img:hover {
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 15px rgba(59, 130, 246, 0.8));
+}
+
+@keyframes scrollBanks {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+/* Card principal com efeito vidro fosco */
+.card {
+  position: relative;
+  z-index: 5;
+  width: 340px;
+  padding: 30px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  text-align: center;
+  color: white;
+}
+
+/* Logo e textos */
+.logo {
+  width: 90px;
+  margin-bottom: 10px;
+}
+
+.card h2 {
+  margin: 0;
+  font-weight: 600;
+  font-size: 1.4rem;
+}
+
+.card p {
+  margin: 5px 0 20px 0;
+  color: #a3c4ff;
+  font-size: 0.9rem;
+}
+
+/* Inputs e botão */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+input {
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  text-align: center;
+}
+
+input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+button {
+  background: linear-gradient(90deg, #3b82f6, #2563eb);
+  border: none;
+  border-radius: 8px;
+  padding: 12px;
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(59, 130, 246, 0.6);
+}
+
+/* ===== Rodapé GOV/INSS ===== */
+.gov-section {
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  opacity: 0.8;
+}
+
+.gov-section img {
+  height: 40px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.gov-section img:hover {
+  transform: scale(1.1);
+  opacity: 1;
+}
+
