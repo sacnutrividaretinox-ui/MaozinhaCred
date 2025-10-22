@@ -91,16 +91,77 @@ a{color:inherit;text-decoration:none}
 @media (max-width:900px){.testi{grid-template-columns:1fr}}
 
 /* Simulador */
-.section--glass{background:radial-gradient(1200px 600px at 50% -10%, rgba(59,130,246,.25), transparent);border-top:1px solid rgba(255,255,255,.06);border-bottom:1px solid rgba(255,255,255,.06)}
-.simulador{max-width:760px;margin:0 auto;background:var(--glass);border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:22px;display:grid;grid-template-columns:1fr 1fr;gap:18px;backdrop-filter:blur(10px)}
-.simulador form{display:flex;flex-direction:column;gap:10px}
-.simulador label{color:#cfe3ff;font-size:.95rem}
-.simulador input{padding:12px;border:none;border-radius:12px;background:rgba(255,255,255,.14);color:#fff;outline:none}
-.simulador__result{background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:16px;opacity:0;transform:translateY(6px);transition:.25s}
-.simulador__result.show{opacity:1;transform:translateY(0)}
-.simulador__result h4{margin:4px 0 8px}
-.simulador__result p{color:#cfe3ff}
-@media (max-width:900px){.simulador{grid-template-columns:1fr}}
+/* ====== SEÇÃO DE SIMULAÇÃO ====== */
+.simulador {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #0B153C; /* mesmo fundo da página */
+  padding: 80px 20px;
+}
+
+.simulador-card {
+  background-color: #111B4A; /* cor do card */
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  padding: 40px 30px;
+  width: 100%;
+  max-width: 420px;
+  color: #fff;
+  text-align: center;
+}
+
+.simulador-card h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.simulador-card p {
+  color: #cbd5e1;
+  margin-bottom: 24px;
+  font-size: 0.95rem;
+}
+
+.simulador-card .campo {
+  text-align: left;
+  margin-bottom: 18px;
+}
+
+.simulador-card label {
+  display: block;
+  font-size: 0.9rem;
+  color: #b3b8d0;
+  margin-bottom: 5px;
+}
+
+.simulador-card input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: none;
+  font-size: 1rem;
+  outline: none;
+  color: #111;
+}
+
+.simulador-card button {
+  width: 100%;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 0;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.simulador-card button:hover {
+  background-color: #2563eb;
+}
+
 
 /* CTA final */
 .cta-final{position:relative;padding:60px 20px;text-align:center}
