@@ -8,68 +8,77 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-// === Configurações ===
+// === CONFIG ===
 const TOKEN = "687eeeae24e56030ffe2aeef838d1f0e";
 const PORT = process.env.PORT || 3000;
 
-// === Caminho do diretório atual ===
+// === Caminhos ===
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// === Servir arquivos estáticos (HTML, CSS, JS, imagens etc.) ===
+// === Servir Front ===
 app.use(express.static(__dirname));
+app.get("/", (req, res) => res.sendFile(path.join(__dirname, "index.html")));
 
-// === Rota inicial ===
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "index.html"));
-});
-
-// === Rota de simulação de crédito ===
+// === Rota principal ===
 app.post("/api/checkout", async (req, res) => {
   const { cpf, valor, parcelas } = req.body;
+  console.log("📩 Requisição recebida:", { cpf, valor, parcelas });
 
   if (!cpf || !valor) {
-    return res.status(400).json({
-      error: "Descrição e valor são obrigatórios."
-    });
+    return res.status(400).json({ error: "Descrição e valor são obrigatórios." });
   }
 
   try {
     const url = `https://apela-api.tech/?user=${TOKEN}&cpf=${cpf}&valor=${valor}&parcelas=${parcelas || 1}`;
-    console.log(`📡 Consultando API externa: ${url}`);
+    console.log("🔗 Chamando API externa:", url);
 
     const response = await fetch(url);
-    const data = await response.json();
+    const text = await response.text();
 
-    // Se a API retornar erro
-    if (data.error) {
-      console.warn("⚠️ Erro retornado pela API externa:", data.error);
-      return res.status(400).json({ error: data.error });
+    console.log("📨 Resposta bruta da API:", text);
+
+    let data;
+    try {
+      data = JSON.parse(text);
+    } catch {
+      console.warn("⚠️ Resposta não veio em JSON, usando mock de fallback.");
+      data = { status: "mock", mensagem: "API externa não respondeu em JSON." };
     }
 
-    // Sucesso
-    console.log("✅ Consulta concluída com sucesso!");
+    if (response.status !== 200) {
+      console.warn("⚠️ API retornou erro:", response.status, data);
+      return res.status(response.status).json({
+        error: data.error || "Erro retornado pela API externa",
+        detalhes: data
+      });
+    }
+
     res.json({
       status: data.status || "Aprovado",
-      nome: data.nome || "Cliente",
-      valorSolicitado: valor,
-      parcelas: parcelas,
-      analise: data.mensagem || "Crédito analisado com sucesso!",
-      retornoOriginal: data
+      mensagem: data.mensagem || "Análise concluída com sucesso",
+      parcelas,
+      valor,
+      retorno: data
     });
   } catch (error) {
-    console.error("❌ Erro ao consultar API:", error.message);
+    console.error("❌ Falha ao consultar API:", error.message);
     res.status(500).json({
       error: "Falha ao consultar API externa",
-      detalhes: error.message
+      mock: {
+        status: "Aprovado",
+        mensagem: "API fora do ar, resposta simulada",
+        parcelas,
+        valor
+      }
     });
   }
 });
 
-// === Inicialização do servidor ===
+// === Inicialização ===
 app.listen(PORT, () => {
   console.log("===================================");
-  console.log("🔥 Mãozinha Cred Backend Ativo!");
-  console.log(`🚀 Rodando em http://localhost:${PORT}`);
+  console.log("🔥 Servidor Mãozinha Cred rodando!");
+  console.log(`🚀 Porta: ${PORT}`);
   console.log("===================================");
 });
